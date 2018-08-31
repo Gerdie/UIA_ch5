@@ -13,7 +13,7 @@ public class MemoryCard : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		GetComponent<SpriteRenderer> ().sprite = image;
+		
 	}
 	
 	// Update is called once per frame
