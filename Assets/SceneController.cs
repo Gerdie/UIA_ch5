@@ -6,6 +6,7 @@ public class SceneController : MonoBehaviour {
 	[SerializeField] private Sprite[] images;
 	private MemoryCard[] deck;
 	public MemoryCard card;
+	private int[] chosenCardIndices;
 
 	// Use this for initialization
 	void Start () {
@@ -18,19 +19,56 @@ public class SceneController : MonoBehaviour {
 			for (int yIndex = 0; yIndex < yPositions.Length; yIndex++) {
 				MemoryCard cardClone;
 				cardClone = Instantiate(card) as MemoryCard;
-				// choose a random card image
-				cardClone.SetCard(cardIndex, images[Random.Range(0, images.Length)]);
+				// assign card index and [random] image
+				int imgId = Random.Range(0, images.Length);
+				cardClone.SetCard(cardIndex, imgId, images[imgId]);
 				// set position
 				cardClone.transform.position = new Vector3 (xPositions [xIndex], yPositions [yIndex], 0);
 				// add to deck array
 				deck [cardIndex] = cardClone;
+				cardIndex++;
 			}
 		}
+		Debug.Log (deck [0].imgId);
+		Debug.Log (deck [1].imgId);
+		Debug.Log (deck [2].imgId);
+		Debug.Log (deck [3].imgId);
+		Debug.Log (deck [4].imgId);
+		Debug.Log (deck[5].imgId);
 
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		int[] chosenCardIndices = {-1, -1};
+		int currentIndex = 0;
+		for (int i = 0; i < deck.Length; i++) {
+			if (deck [i].IsFaceUp) {
+				chosenCardIndices [currentIndex] = i;
+				currentIndex++;
+
+				// there's an edge case rn where could possibly have >2 cards faceup
+				if (currentIndex == 2) {
+					CompareCards (chosenCardIndices [0], chosenCardIndices [1]);
+					return;
+				}
+			}
+		}
+	}
+
+	void CompareCards(int CardIndex1, int CardIndex2) {
+		if (deck [CardIndex1].imgId == deck [CardIndex2].imgId) {
+			// TODO: remove cards and score ++
+			Debug.Log("correct!");
+			System.Threading.Thread.Sleep(5000);
+			deck [CardIndex1].TurnFaceDown ();
+			deck [CardIndex2].TurnFaceDown ();
+		} else {
+			// TODO: sleep before turning face down
+			Debug.Log("WRONG!");
+			System.Threading.Thread.Sleep(5000);
+			deck [CardIndex1].TurnFaceDown ();
+			deck [CardIndex2].TurnFaceDown ();
+		}
 	}
 }
