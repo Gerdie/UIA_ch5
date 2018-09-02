@@ -56,7 +56,7 @@ public class SceneController : MonoBehaviour {
 
 				if (currentIndex == 2) {
 					_TwoCardsRevealed = true;
-					CompareCards (chosenCardIndices [0], chosenCardIndices [1]);
+					StartCoroutine(CompareCards (chosenCardIndices [0], chosenCardIndices [1]));
 					_TwoCardsRevealed = false;
 					return;
 				}
@@ -64,17 +64,16 @@ public class SceneController : MonoBehaviour {
 		}
 	}
 
-	void CompareCards(int CardIndex1, int CardIndex2) {
+	private IEnumerator CompareCards(int CardIndex1, int CardIndex2) {
 		if (deck [CardIndex1].imgId == deck [CardIndex2].imgId) {
 			// TODO: remove cards and score ++
-			Debug.Log("correct!");
-			System.Threading.Thread.Sleep(5000);
+			Debug.Log("Correct!");
+			yield return new WaitForSeconds (1.2f);
 			deck [CardIndex1].TurnFaceDown ();
 			deck [CardIndex2].TurnFaceDown ();
 		} else {
-			// TODO: sleep before turning face down
 			Debug.Log("WRONG!");
-			System.Threading.Thread.Sleep(5000);
+			yield return new WaitForSeconds (1.2f);
 			deck [CardIndex1].TurnFaceDown ();
 			deck [CardIndex2].TurnFaceDown ();
 		}
