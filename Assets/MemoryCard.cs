@@ -5,6 +5,7 @@ using UnityEngine;
 public class MemoryCard : MonoBehaviour {
 	[SerializeField] private GameObject cardBack;
 	[SerializeField] private Sprite image;
+	[SerializeField] private SceneController controller;
 	private int _id;
 	private int _imgId;
 
@@ -28,7 +29,7 @@ public class MemoryCard : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (cardBack.activeSelf) {
+		if (!controller.TwoCardsRevealed && cardBack.activeSelf) {
 			cardBack.SetActive (false);
 			Debug.Log ("Show card idx " + _id);
 		}

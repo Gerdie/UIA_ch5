@@ -97,6 +97,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cardBack: {fileID: 1123406003761468}
   image: {fileID: 0}
+  controller: {fileID: 114329738779140298, guid: 565400e4f6289456c854adc0758cf8a7,
+    type: 2}
 --- !u!212 &212263452332294042
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -7,9 +7,16 @@ public class SceneController : MonoBehaviour {
 	private MemoryCard[] deck;
 	public MemoryCard card;
 	private int[] chosenCardIndices;
+	private bool _TwoCardsRevealed;
+
+	public bool TwoCardsRevealed {
+		get { return _TwoCardsRevealed; }
+	}
 
 	// Use this for initialization
 	void Start () {
+		_TwoCardsRevealed = false;
+		// Set card values and positions
 		float[] xPositions = {-3f, 0f, 3f};
 		float[] yPositions = {-1.8f, 1.8f};
 		deck = new MemoryCard[xPositions.Length * yPositions.Length];
@@ -34,22 +41,23 @@ public class SceneController : MonoBehaviour {
 		Debug.Log (deck [2].imgId);
 		Debug.Log (deck [3].imgId);
 		Debug.Log (deck [4].imgId);
-		Debug.Log (deck[5].imgId);
+		Debug.Log (deck [5].imgId);
 
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
-		int[] chosenCardIndices = {-1, -1};
+		int[] chosenCardIndices = { -1, -1 };
 		int currentIndex = 0;
 		for (int i = 0; i < deck.Length; i++) {
 			if (deck [i].IsFaceUp) {
 				chosenCardIndices [currentIndex] = i;
 				currentIndex++;
 
-				// there's an edge case rn where could possibly have >2 cards faceup
 				if (currentIndex == 2) {
+					_TwoCardsRevealed = true;
 					CompareCards (chosenCardIndices [0], chosenCardIndices [1]);
+					_TwoCardsRevealed = false;
 					return;
 				}
 			}
