@@ -17,10 +17,6 @@ public class MemoryCard : MonoBehaviour {
 		get {return _imgId;}
 	}
 
-	public bool IsFaceUp {
-		get {return !cardBack.activeSelf; }
-	}
-
 	public void SetCard(int id, int imgId, Sprite image) {
 		// initialized in SceneController.cs
 		_id = id;
@@ -29,19 +25,23 @@ public class MemoryCard : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		if (!controller.TwoCardsRevealed && cardBack.activeSelf) {
+		Debug.Log (string.Format("TwoCardsRevealed? {0}", controller.TwoCardsRevealed() ));
+		Debug.Log (id);
+		if (!controller.TwoCardsRevealed() && cardBack.activeSelf) {
 			cardBack.SetActive (false);
+			Debug.Log ("Show card idx " + _id);
+			controller.CardRevealed (id);
 			Debug.Log ("Show card idx " + _id);
 		}
 	}
 
 	public void TurnFaceDown() {
-		cardBack.SetActive (true);
 		Debug.Log ("Hide card idx " + _id);
+		cardBack.SetActive (true);
 	}
 
 	public void Remove() {
-		//TODO: remove card from board
 		Debug.Log ("Remove card idx " + _id);
+		GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 	}
 }
