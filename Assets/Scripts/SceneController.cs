@@ -21,9 +21,6 @@ public class SceneController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("Application Version : " + Application.version);
-		Debug.Log ("Initial val for _firstCardIdx: " + firstCardIdx);
-		Debug.Log ("Initial val for _secondCardIdx: " + secondCardIdx);
 
 		// Set card values and positions
 		float[] xPositions = {-3f, 0f, 3f};
@@ -31,12 +28,29 @@ public class SceneController : MonoBehaviour {
 		deck = new MemoryCard[xPositions.Length * yPositions.Length];
 		int cardIndex = 0;
 
+		// Order random images but enforce pairs
+		IDictionary<int, int> imgCounter = new Dictionary<int, int>();
+		int num_card_occurances = xPositions.Length * yPositions.Length / images.Length;
+		int[] imageOrder = {-1, -1, -1, -1, -1, -1};
+		int currImageOrderIdx = 0;
+		for (int imgIdx = 0; imgIdx < images.Length; imgIdx++) {
+			imgCounter [imgIdx] = 0;
+		}
+		while (imageOrder [(xPositions.Length * yPositions.Length) - 1] == -1) {
+			int imgId = Random.Range(0, images.Length);
+			if (imgCounter [imgId] < num_card_occurances) {
+				imgCounter [imgId] = imgCounter [imgId] + 1;
+				imageOrder [currImageOrderIdx] = imgId;
+				currImageOrderIdx++;
+			}
+		}
+
 		for (int xIndex=0; xIndex < xPositions.Length; xIndex++) {
 			for (int yIndex = 0; yIndex < yPositions.Length; yIndex++) {
 				MemoryCard cardClone;
 				cardClone = Instantiate(card) as MemoryCard;
-				// assign card index and [random] image
-				int imgId = Random.Range(0, images.Length);
+				// assign card index and image
+				int imgId = imageOrder[cardIndex];
 				cardClone.SetCard(cardIndex, imgId, images[imgId]);
 				// set position
 				cardClone.transform.position = new Vector3 (xPositions [xIndex], yPositions [yIndex], -0.1f);
@@ -47,23 +61,16 @@ public class SceneController : MonoBehaviour {
 		}
 		Debug.Log (string.Format ("{0} {1} {2} {3} {4} {5}", deck [0].id, deck [1].id, deck [2].id, deck [3].id, deck [4].id, deck [5].id));
 		Debug.Log (string.Format("{0} {1} {2} {3} {4} {5}", deck [0].imgId, deck [1].imgId, deck [2].imgId, deck [3].imgId, deck [4].imgId, deck [5].imgId));
-		Debug.Log ("End of Start val for _firstCardIdx: " + firstCardIdx);
-		Debug.Log ("End of Start for _secondCardIdx: " + secondCardIdx);
 	}
 
-	public bool TwoCardsRevealed() {
-		Debug.Log ("_firstCardIdx: " + firstCardIdx + " _secondCardIdx: " + secondCardIdx);
-		//		get { return _secondCardIdx != -1; }
-		return secondCardIdx != -1;
+	public bool TwoCardsRevealed {
+		get { return _secondCardIdx != -1; }
 	}
 
 	public void CardRevealed(int cardId) {
-		Debug.Log ("controller sees cardId " + cardId);
 		if (firstCardIdx == -1) {
-			Debug.Log ("setting _firstCardIdx");
 			firstCardIdx = cardId;
 		} else if (secondCardIdx == -1) {
-			Debug.Log ("setting _secondCardIdx");
 			secondCardIdx = cardId;
 			StartCoroutine(CompareCards (firstCardIdx, secondCardIdx));
 		} else {
@@ -72,7 +79,6 @@ public class SceneController : MonoBehaviour {
 	}
 
 	private IEnumerator CompareCards(int CardIndex1, int CardIndex2) {
-		Debug.Log ("Comparing idx {CardIndex1} to idx {CardIndex2}");
 		if (deck [CardIndex1].imgId == deck [CardIndex2].imgId) {
 			// TODO: remove cards and score ++
 			Debug.Log("Correct!");

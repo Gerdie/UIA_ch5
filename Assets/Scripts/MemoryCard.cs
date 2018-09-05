@@ -25,23 +25,17 @@ public class MemoryCard : MonoBehaviour {
 	}
 
 	public void OnMouseDown() {
-		Debug.Log (string.Format("TwoCardsRevealed? {0}", controller.TwoCardsRevealed() ));
-		Debug.Log (id);
-		if (!controller.TwoCardsRevealed() && cardBack.activeSelf) {
+		if (!controller.TwoCardsRevealed && cardBack.activeSelf) {
 			cardBack.SetActive (false);
-			Debug.Log ("Show card idx " + _id);
 			controller.CardRevealed (id);
-			Debug.Log ("Show card idx " + _id);
 		}
 	}
 
 	public void TurnFaceDown() {
-		Debug.Log ("Hide card idx " + _id);
 		cardBack.SetActive (true);
 	}
 
 	public void Remove() {
-		Debug.Log ("Remove card idx " + _id);
 		GetComponent<SpriteRenderer>().sortingLayerName = "Hidden";
 	}
 }
