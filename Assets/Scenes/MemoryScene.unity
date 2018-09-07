@@ -531,6 +531,11 @@ Prefab:
       propertyPath: _secondCardIdx
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 114329738779140298, guid: 565400e4f6289456c854adc0758cf8a7,
+        type: 2}
+      propertyPath: timer
+      value: 
+      objectReference: {fileID: 1733477516}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 565400e4f6289456c854adc0758cf8a7, type: 2}
   m_IsPrefabParent: 0
@@ -664,7 +669,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 23.4
+  m_Text: 
 --- !u!222 &1733477515
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -679,9 +684,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1733477512}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a3e019db1cf3b4175b4a93ba6000c0f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 8748b6c8125e74e5d93fba92bfae5f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  controller: {fileID: 1789969085}
   timeElapsed: 0
 --- !u!1 &1789969084
 GameObject:
@@ -716,7 +722,9 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9b144d04d42df4adf9628444d6709df7, type: 3}
   - {fileID: 21300000, guid: 35ccc8bf56a554db9a2a18110b04e3be, type: 3}
   - {fileID: 21300000, guid: ea14404372e434cc5a707058aca78157, type: 3}
+  timer: {fileID: 1733477516}
   card: {fileID: 281592900}
+  gameOver: 0
 --- !u!4 &1789969086
 Transform:
   m_ObjectHideFlags: 0
