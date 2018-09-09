@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SceneController : MonoBehaviour {
 	[SerializeField] private Sprite[] images;
 	[SerializeField] private Timer timer;
 	private MemoryCard[] deck;
 	public MemoryCard card;
+	public GameObject endGamePanel;
 	private int cardsLeft;
 	private int _secondCardIdx = -1;
 	private int _firstCardIdx = -1;
@@ -24,6 +26,7 @@ public class SceneController : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		// Set card values and positions
+		endGamePanel.gameObject.SetActive(false);
 		float[] xPositions = {-3f, 0f, 3f};
 		float[] yPositions = {-1.8f, 1.8f};
 		deck = new MemoryCard[xPositions.Length * yPositions.Length];
@@ -91,6 +94,7 @@ public class SceneController : MonoBehaviour {
 			if (cardsLeft == 0) {
 				timer.keepTiming = false;
 				Debug.Log("Game Over!");
+				endGamePanel.gameObject.SetActive(true);
 			}
 		} else {
 			Debug.Log("WRONG!");
