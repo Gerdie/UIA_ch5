@@ -9,6 +9,7 @@ public class SceneController : MonoBehaviour {
 	private MemoryCard[] deck;
 	public MemoryCard card;
 	public GameObject endGamePanel;
+	private float bestTime;
 	private int cardsLeft;
 	private int _secondCardIdx = -1;
 	private int _firstCardIdx = -1;
@@ -25,6 +26,13 @@ public class SceneController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		// SGet high score, if any
+		if (PlayerPrefs.HasKey ("bestTime")) {
+			bestTime = PlayerPrefs.GetFloat ("bestTime");
+		} else {
+			bestTime = 100.0f;
+		}
+
 		// Set card values and positions
 		endGamePanel.gameObject.SetActive(false);
 		float[] xPositions = {-3f, 0f, 3f};
@@ -93,7 +101,11 @@ public class SceneController : MonoBehaviour {
 			cardsLeft -= 2;
 			if (cardsLeft == 0) {
 				timer.keepTiming = false;
-				Debug.Log("Game Over!");
+				// check for new low score
+				if (bestTime > timer.timeElapsed) {
+					Debug.Log ("New Best Time!");
+					PlayerPrefs.SetFloat ("bestTime", timer.timeElapsed);
+				}
 				endGamePanel.gameObject.SetActive(true);
 			}
 		} else {
